@@ -1,0 +1,10 @@
+version: '1'
+
+services:
+  desafio_docker_go: 
+    build: 
+      context: ./desafio-fullcycle-golang-docker
+    image: lucasribeirodesouza2000/desafiodockergo
+    container_name: docker_with_go
+    ports:
+      - "8080:8080"
