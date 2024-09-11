@@ -1,15 +1,15 @@
-FROM golang:1.18
+FROM golang:1.18-alpine AS build
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY . .
 
 RUN go mod download
 
-COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /goapp
 
-RUN go build -o desafio-fullcycle-golang-docker
+FROM scratch
 
-EXPOSE 8080
+COPY --from=build /goapp /goapp
 
-CMD ["./desafio-fullcycle-golang-docker"]
+ENTRYPOINT ["/goapp"]
